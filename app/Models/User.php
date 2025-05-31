@@ -26,6 +26,7 @@ class User extends Authenticatable
         'batch',
         'gender',
         'password',
+        'profile_image',
     ];
 
     /**
