@@ -100,13 +100,10 @@
                             <ul class="navbar-nav me-3">
                                 <li class="nav-item-home"><a class="nav-link" href="#">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Teams</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Community</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('posts.index') }}">Community</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Store</a></li>
-                                
-                            
                             </ul>
                             
-
                         </div>
 
                         <!-- Right Side Of Navbar -->
@@ -126,9 +123,15 @@
                                 @endif
                             @else
                                 <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        @if(Auth::user()->profile_image)
+                                            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle me-2" style="width: 50px; height: 50px; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                                        @endif
                                         {{ Auth::user()->name }}
                                     </a>
+
 
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{{ route('profile.edit') }}">
