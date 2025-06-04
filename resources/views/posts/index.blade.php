@@ -47,6 +47,29 @@
                         </video>
                     @endif
                 @endforeach
+                    <div class="reactions" data-post-id="{{ $post->id }}">
+                        <button class="react-btn" data-type="like">👍</button>
+                        <button class="react-btn" data-type="love">❤️</button>
+                        <button class="react-btn" data-type="haha">😂</button>
+                        <button class="react-btn" data-type="wow">😮</button>
+                        <button class="react-btn" data-type="sad">😢</button>
+                        <button class="react-btn" data-type="angry">😡</button>
+                    </div>
+
+                        <div class="reaction-counts">
+                            @foreach($post->reactions->groupBy('type') as $type => $group)
+                                <span>{{ $type }}: {{ $group->count() }}</span>
+                            @endforeach
+                        </div>
+
+                        @php
+                        $userReaction = $post->reactions->where('user_id', auth()->id())->first();
+                        @endphp
+
+                        @if($userReaction)
+                            <p>You reacted: {{ $userReaction->type }}</p>
+                        @endif
+
 
                         <hr>
 
@@ -100,4 +123,26 @@
 
     {{ $posts->links() }}
 </div>
+
+        <script>
+        $('.react-btn').click(function() {
+            const type = $(this).data('type');
+            const postId = $(this).closest('.reactions').data('post-id');
+
+            $.ajax({
+                url: `/posts/${postId}/react`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    type: type
+                },
+                success: function(response) {
+                    alert('Reaction saved!');
+                    location.reload(); // or update the count dynamically
+                }
+            });
+        });
+        </script>
+
+
 @endsection

@@ -9,6 +9,21 @@ use Illuminate\Support\Facades\Auth;
 class ReactionController extends Controller
 {
     
+    public function react(Request $request, $postId)
+    {
+        $request->validate([
+            'type' => 'required|string|in:like,love,haha,wow,sad,angry'
+        ]);
+
+        $reaction = Reaction::updateOrCreate(
+            ['post_id' => $postId, 'user_id' => Auth::id()],
+            ['type' => $request->type]
+        );
+
+        return response()->json(['success' => true, 'reaction' => $reaction]);
+    }
+
+
     public function storeReaction(Request $request)
     {
         $request->validate([
