@@ -29,14 +29,17 @@
     @foreach($posts as $post)
         <div class="card mb-4">
             <div class="card-body">
-                <img src="{{ asset('storage/profile_images/' . $post->user->avatar) }}" width="40">
-                <strong>{{ $post->user->name }}</strong>
+                <img src="{{ asset('storage/' . $post->user->profile_image) }}" width="40" class="rounded-circle me-2">
+                <strong>{{ $post->user->name }}</strong><br>
                 <small>{{ $post->created_at->diffForHumans() }}</small>
+                <hr>
                 <p>{{ $post->description }}</p>
                 
+                 
+
                 @foreach($post->media as $media)
                     @if(Str::startsWith($media->type, 'image'))
-                        <img src="{{ $media->file_path }}" alt="Image" class="img-fluid mb-2">
+                        <img src="{{ $media->file_path }}" alt="Image" class="img-thumbnail" width="300">
                     @elseif(Str::startsWith($media->type, 'video'))
                         <video controls class="w-100 mb-2">
                             <source src="{{ $media->file_path }}" type="video/mp4">
@@ -44,6 +47,8 @@
                         </video>
                     @endif
                 @endforeach
+
+                        <hr>
 
                 <form action="{{ route('comments.store') }}" method="POST">
                     @csrf
@@ -58,7 +63,7 @@
                 {{-- Comments --}}
                 @foreach ($post->comments as $comment)
                     <div class="comment">
-                        <img src="{{ asset('storage/avatars/' . $comment->user->avatar) }}" width="30">
+                        <img src="{{ asset('storage/' . $comment->user->profile_image) }}" width="30" class="rounded-circle me-2">
                         <strong>{{ $comment->user->name }}</strong>
                         <small>{{ $comment->created_at->diffForHumans() }}</small>
                         <p>{{ $comment->body }}</p>
@@ -66,7 +71,7 @@
                         {{-- Replies --}}
                         @foreach ($comment->replies as $reply)
                             <div class="reply" style="margin-left: 30px;">
-                                <img src="{{ asset('storage/avatars/' . $reply->user->avatar) }}" width="30">
+                                <img src="{{ asset('storage/' . $reply->user->profile_image) }}" width="30" class="rounded-circle me-2">
                                 <strong>{{ $reply->user->name }}</strong>
                                 <small>{{ $reply->created_at->diffForHumans() }}</small>
                                 <p>{{ $reply->body }}</p>

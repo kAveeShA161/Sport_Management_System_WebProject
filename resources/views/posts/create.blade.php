@@ -4,15 +4,22 @@
 
 @section('content')
 <div class="container">
-    <h2>Create a New Post</h2>
+    <h2>What's on your mind</h2>
+    
+ 
+    
     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <textarea name="description" class="form-control" rows="4" placeholder="What's on your mind?"></textarea>
         </div>
         <div class="mb-3">
-            <label for="media">Upload Images/Videos (Max 30MB each):</label>
-            <input type="file" name="media[]" class="form-control" multiple>
+            <label for="media">Upload Images:</label>
+            <input type="file" name="media[]" multiple >
+        </div>
+        <div class="mb-3">
+            <label for="media">Upload Video (Max 30MB each):</label>
+            <input type="file" name="media[]"  multiple>
         </div>
         <button type="submit" class="btn btn-primary">Post</button>
     </form>

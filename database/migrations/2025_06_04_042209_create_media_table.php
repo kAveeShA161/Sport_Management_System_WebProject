@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->constrained()->onDelete('cascade');
+            $table->string('file_name')->nullable();
             $table->string('file_path');
             $table->enum('type', ['image', 'video']);
             $table->timestamps();

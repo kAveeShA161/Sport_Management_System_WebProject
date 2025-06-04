@@ -33,20 +33,22 @@ public function index()
             'description' => $request->description,
         ]);
 
-         if ($request->hasFile('media')) {
-            foreach ($request->file('media', []) as $file) {
-                $path = $file->store('public/media');
+         if (($request->hasFile('media'))) {
+            foreach ($request->file('media') as $file) {
+                $originalFileName = $file->getClientOriginalName();
+                $path = $file->store('media', 'public'); // only 'media', not 'public/media'
                 Media::create([
                     'post_id' => $post->id,
-                    'file_path' => Storage::url($path),
+                    'file_path' => '/storage/' . $path, // manually build the correct URL
+                    'file_name' => $originalFileName,
                     'type' => str_starts_with($file->getMimeType(), 'video') ? 'video' : 'image',
                 ]);
-}
-
+            }
         }
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully!');
     }
+        
 
-
+// Note: Ensure that the 'media' directory exists in your 'storage/app/public' directory
 }
