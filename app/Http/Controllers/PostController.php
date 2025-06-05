@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Media;
+use App\Models\Reaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,5 +51,20 @@ public function index()
     }
         
 
+    public function react(Request $request, $postId)
+    {
+        $request->validate([
+            'type' => 'required|string'
+        ]);
+
+        $post = Post::findOrFail($postId);
+
+        $reaction = Reaction::updateOrCreate(
+            ['user_id' => Auth::id(), 'post_id' => $post->id],
+            ['type' => $request->type]
+        );
+
+        return response()->json(['success' => true, 'reaction' => $reaction]);
+    }
 // Note: Ensure that the 'media' directory exists in your 'storage/app/public' directory
 }

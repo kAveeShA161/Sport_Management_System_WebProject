@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <html lang="en">
+<!DOCTYPE html>
 
 <head>
     <meta charset="UTF-8">
@@ -54,24 +54,25 @@
                         </li>
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="teams.html">Teams</a>
+                            <a class="nav-link" href="">Teams</a>
                         </li>
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="posts.html">Posts</a>
+                            <a class="nav-link" href="">Posts</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="store.html">Store</a>
+                            <a class="nav-link" href="">Store</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="users.html">Users</a>
+                            <a class="nav-link" href="">Users</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="users.html">Log Out</a>
-                        </li>
+                        <form method="POST" action="{{ route('admin.logout') }}">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link">Log Out</button>
+                        </form>
 
                     </ul>
                 
@@ -84,5 +85,4 @@
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

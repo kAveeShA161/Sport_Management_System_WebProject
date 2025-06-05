@@ -8,6 +8,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAuth\DashboardController;
+
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -55,3 +60,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('/posts/{post}/react', [ReactionController::class, 'react'])->middleware('auth');
+
+
+// Admin login routes
+Route::get('admin/login', [App\Http\Controllers\AdminAuth\LoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('admin/login', [App\Http\Controllers\AdminAuth\LoginController::class, 'login'])->name('admin.login.submit');
+Route::post('admin/logout', [App\Http\Controllers\AdminAuth\LoginController::class, 'logout'])->name('admin.logout');
+
+Route::get('/admin/dashboard', [App\Http\Controllers\AdminAuth\DashboardController::class, 'index'])->name('admin.dashboard');

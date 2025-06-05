@@ -5,6 +5,55 @@
 @section('content')
 @php use Illuminate\Support\Str; @endphp
 
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+    .card {
+        margin-bottom: 20px;
+    }
+    .react-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5em;
+    }
+    .reactions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .reaction-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .who-reacted {
+        margin-top: 5px;
+    }
+
+    .comment, .reply {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .active {
+        background-color: #eef; /* light highlight */
+        font-weight: bold;
+        border-radius: 5px;
+    }
+    textarea {
+        width: 100%;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+    button {
+        margin-top: 10px;
+    }
+</style>
 <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="mb-3">
@@ -47,20 +96,41 @@
                         </video>
                     @endif
                 @endforeach
-                    <div class="reactions" data-post-id="{{ $post->id }}">
+                    <!--<div class="reaction" data-post-id="{{ $post->id }}">
                         <button class="react-btn" data-type="like">👍</button>
                         <button class="react-btn" data-type="love">❤️</button>
                         <button class="react-btn" data-type="haha">😂</button>
                         <button class="react-btn" data-type="wow">😮</button>
                         <button class="react-btn" data-type="sad">😢</button>
                         <button class="react-btn" data-type="angry">😡</button>
-                    </div>
+                    </div>-->
 
-                        <div class="reaction-counts">
-                            @foreach($post->reactions->groupBy('type') as $type => $group)
-                                <span>{{ $type }}: {{ $group->count() }}</span>
+                        
+
+                    <div class="reactions" data-post-id="{{ $post->id }}">
+                        @php
+                            $reactions = $post->reactions->groupBy('type');
+                        @endphp
+
+                        <div class="reaction-buttons">
+                            @foreach (['like' => '👍', 'love' => '❤️', 'haha' => '😂', 'wow' => '😮', 'sad' =>'😢', 'angry' => '😡'] as $type => $icon)
+                                <button class="react-btn" data-type="{{ $type }}">
+                                    {{ $icon }} {{ isset($reactions[$type]) ? $reactions[$type]->count() : 0 }}
+                                </button>
                             @endforeach
                         </div>
+
+                        <div class="who-reacted">
+                            <small>
+                                @foreach ($reactions as $type => $group)
+                                    {{ $group->count() }} {{ $type }} by
+                                    {{ implode(', ', $group->pluck('user.name')->toArray()) }}<br>
+                                @endforeach
+                            </small>
+                        </div>
+                    </div>
+
+
 
                         @php
                         $userReaction = $post->reactions->where('user_id', auth()->id())->first();
@@ -125,21 +195,23 @@
 </div>
 
         <script>
-        $('.react-btn').click(function() {
-            const type = $(this).data('type');
-            const postId = $(this).closest('.reactions').data('post-id');
+            $(document).ready(function() {
+            $('.react-btn').click(function() {
+                const type = $(this).data('type');
+                const postId = $(this).closest('.reactions').data('post-id');
 
-            $.ajax({
-                url: `/posts/${postId}/react`,
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    type: type
-                },
-                success: function(response) {
-                    alert('Reaction saved!');
-                    location.reload(); // or update the count dynamically
-                }
+                $.ajax({
+                    url: `/posts/${postId}/react`,
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        type: type
+                    },
+                    success: function(response) {
+                        alert('Reaction saved!');
+                        location.reload(); // or update the count dynamically
+                    }
+                });
             });
         });
         </script>

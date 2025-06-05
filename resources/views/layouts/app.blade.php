@@ -121,6 +121,13 @@
                                         <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                     </li>
                                 @endif
+
+                                @if (Route::has('admin'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin') }}">{{ __('Admin') }}</a>
+                                    </li>
+                                @endif
+
                             @else
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -157,6 +164,7 @@
         </nav>
 
         <main class="py-4">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             @yield('content')
         </main>
 

@@ -3,6 +3,26 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    
+    .container {
+        max-width: 600px;
+        margin-top: 50px;
+    }
+    
+    h2 {
+        margin-bottom: 20px;
+    }
+    
+    textarea {
+        resize: none;
+    }
+</style>
+
 <div class="container">
     <h2>What's on your mind</h2>
     
