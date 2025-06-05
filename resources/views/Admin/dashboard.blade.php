@@ -29,7 +29,7 @@
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             
-            <a class="navbar-brand" href="#"><img src="images/Logo.png">Physical Education Center - SUSL</a>
+            <a class="navbar-brand" href="#"><img src="{{ asset('images/Logo.png') }}">Physical Education Center - SUSL</a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
