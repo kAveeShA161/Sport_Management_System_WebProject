@@ -34,14 +34,18 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        if ($comment->user_id !== Auth::id()) {
-            abort(403);
+        $user = Auth::user();
+
+        // Allow only the comment owner or an admin to delete
+        if ($comment->user_id !== $user->id && !$user->is_admin) {
+            abort(403, 'Unauthorized action. You can only delete your own comments.');
         }
 
         $comment->delete();
 
         return back()->with('success', 'Comment deleted successfully.');
     }
+
 
     
 }

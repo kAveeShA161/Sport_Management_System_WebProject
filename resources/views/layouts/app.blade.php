@@ -99,7 +99,7 @@
                         <div class="ms-auto">
                             <ul class="navbar-nav me-3">
                                 <li class="nav-item-home"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Teams</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('sports.index') }}">Teams</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('posts.index') }}">Community</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Store</a></li>
                             </ul>

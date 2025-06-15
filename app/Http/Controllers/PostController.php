@@ -13,7 +13,7 @@ class PostController extends Controller
 {
 public function index()
 {
-    $posts = \App\Models\Post::with(['media', 'user',/*'reactions.user',*/ 'comments.user', 'comments.replies.user'])->latest()->paginate(10);
+    $posts = \App\Models\Post::with(['media', 'user','reactions.user','comments.user', 'comments.replies.user', 'comments.replies.replies.user',])->latest()->paginate(10);
     return view('posts.index', compact('posts'));
 }
 
@@ -67,4 +67,44 @@ public function index()
         return response()->json(['success' => true, 'reaction' => $reaction]);
     }
 // Note: Ensure that the 'media' directory exists in your 'storage/app/public' directory
+
+    public function destroy(Post $post)
+    {
+        // Make sure the logged-in user is the post owner
+        if (Auth::id() !== $post->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Delete associated media files
+        foreach ($post->media as $media) {
+            // Remove file from storage (remove "/storage/" prefix to get actual path)
+            $path = str_replace('/storage/', '', $media->file_path);
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+            $media->delete(); // Delete DB record
+        }
+
+        // Delete reactions
+        $post->reactions()->delete();
+
+        // Delete comments and their nested replies recursively
+        $this->deleteCommentsRecursively($post->comments);
+
+        // Finally delete the post
+        $post->delete();
+
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
+    }
+
+    private function deleteCommentsRecursively($comments)
+    {
+        foreach ($comments as $comment) {
+            // Delete nested replies first
+            $this->deleteCommentsRecursively($comment->replies);
+            $comment->delete();
+        }
+    }
+
+
 }

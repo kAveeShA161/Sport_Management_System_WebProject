@@ -1,88 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('admin.layoutAd.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+@section('content')
 
-    <style>
-        body {
-            background-color: #3e3d3f;
-        }
+<div class="container">
+    <h2>Sport Teams</h2>
 
-        .navbar {
-            margin-bottom: 20px;
-        }
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Sport Teams</h3>
+        </div>
+        <div class="card-body">
+            <a href="{{ route('admin.teams.create') }}" class="btn btn-primary mb-3">
+                Add New Team <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
 
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
-        }
-    </style>
-</head>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sport Name</th>
+                            <th>Coach</th>
+                            <th>Student</th>
+                            <th>Student Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($teams as $team)
+                        <tr>
+                            <td>{{ $team->sport_name }}</td>
+                            <td>{{ $team->coach->coach_name ?? 'N/A' }}</td>
+                            <td>{{ $team->student->student_name ?? 'N/A' }}</td>
+                            <td>{{ $team->student_role }}</td>
+                            <td>
+                                <a href="{{ route('admin.teams.edit', $team->id) }}" class="btn btn-info">Edit</a>
 
-<body>
+                                <form action="{{ route('admin.teams.destroy', $team->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
-    <nav class="navbar navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-            
-            <a class="navbar-brand" href="#"><img src="images/Logo.png">Physical Education Center - SUSL</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
-                aria-labelledby="offcanvasDarkNavbarLabel">
-                
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Admin</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="Dashboar.html">Home</a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="teams.html">Teams</a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="posts.html">Posts</a>
-                        </li>
+                @if($teams->isEmpty())
+                    <p>No teams found.</p>
+                @endif
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="store.html">Store</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="users.html">Users</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="users.html">Log Out</a>
-                        </li>
-
-                    </ul>
-                
-                </div>
             </div>
         </div>
-    </nav>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+@endsection

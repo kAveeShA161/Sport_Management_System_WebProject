@@ -81,6 +81,17 @@
                 <img src="{{ asset('storage/' . $post->user->profile_image) }}" width="40" class="rounded-circle me-2">
                 <strong>{{ $post->user->name }}</strong><br>
                 <small>{{ $post->created_at->diffForHumans() }}</small>
+
+                @if (auth()->check() && auth()->id() === $post->user_id)
+                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Delete Post</button>
+                    </form>
+                @endif
+
+
+
                 <hr>
                 <p>{{ $post->description }}</p>
                 
@@ -96,15 +107,6 @@
                         </video>
                     @endif
                 @endforeach
-                    <!--<div class="reaction" data-post-id="{{ $post->id }}">
-                        <button class="react-btn" data-type="like">👍</button>
-                        <button class="react-btn" data-type="love">❤️</button>
-                        <button class="react-btn" data-type="haha">😂</button>
-                        <button class="react-btn" data-type="wow">😮</button>
-                        <button class="react-btn" data-type="sad">😢</button>
-                        <button class="react-btn" data-type="angry">😡</button>
-                    </div>-->
-
                         
 
                     <div class="reactions" data-post-id="{{ $post->id }}">
@@ -154,32 +156,8 @@
                 
 
                 {{-- Comments --}}
-                @foreach ($post->comments as $comment)
-                    <div class="comment">
-                        <img src="{{ asset('storage/' . $comment->user->profile_image) }}" width="30" class="rounded-circle me-2">
-                        <strong>{{ $comment->user->name }}</strong>
-                        <small>{{ $comment->created_at->diffForHumans() }}</small>
-                        <p>{{ $comment->body }}</p>
-
-                        {{-- Replies --}}
-                        @foreach ($comment->replies as $reply)
-                            <div class="reply" style="margin-left: 30px;">
-                                <img src="{{ asset('storage/' . $reply->user->profile_image) }}" width="30" class="rounded-circle me-2">
-                                <strong>{{ $reply->user->name }}</strong>
-                                <small>{{ $reply->created_at->diffForHumans() }}</small>
-                                <p>{{ $reply->body }}</p>
-                            </div>
-                        @endforeach
-
-                        {{-- Reply Form --}}
-                        <form action="{{ route('comments.store') }}" method="POST" style="margin-left: 30px;">
-                            @csrf
-                            <input type="hidden" name="post_id" value="{{ $post->id }}">
-                            <input type="hidden" name="parent_id" value="{{ $comment->id }}">
-                            <textarea name="body" required></textarea>
-                            <button type="submit">Reply</button>
-                        </form>
-                    </div>
+                @foreach ($post->comments->where('parent_id', null) as $comment)
+                    @include('partials.comment', ['comment' => $comment, 'level' => 0, 'postId' => $post->id])
                 @endforeach
 
 

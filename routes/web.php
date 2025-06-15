@@ -10,6 +10,12 @@ use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminAuth\DashboardController;
+use App\Http\Controllers\SportTeamController;
+use App\Http\Controllers\CoachController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\AdminAuth\StoreController;
+use App\Http\Controllers\AdminAuth\UserController;
+use App\Http\Controllers\AdminAuth\AdminPostController;
 
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
@@ -22,7 +28,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //     | You may specify the options for password reset here, such as the view
 
 
@@ -47,8 +53,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/reaction/remove', [ReactionController::class, 'removeReaction']);
 });
 
-Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-
 Route::get('/community', [PostController::class, 'index'])->name('community.index');
 
 Route::get('/community/create', [PostController::class, 'create'])->name('community.create');
@@ -68,3 +72,37 @@ Route::post('admin/login', [App\Http\Controllers\AdminAuth\LoginController::clas
 Route::post('admin/logout', [App\Http\Controllers\AdminAuth\LoginController::class, 'logout'])->name('admin.logout');
 
 Route::get('/admin/dashboard', [App\Http\Controllers\AdminAuth\DashboardController::class, 'index'])->name('admin.dashboard');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('teams', SportTeamController::class);
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('coaches', CoachController::class);
+    Route::resource('members', MemberController::class);
+});
+
+Route::get('/admin/teams/{team?}', [SportTeamController::class, 'index'])->name('admin.teams.index');
+Route::put('/admin/teams/{team}', [SportTeamController::class, 'update'])->name('admin.teams.update');
+
+Route::get('/admin/posts', [PostController::class, 'index'])->name('admin.posts.index');
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'is_admin'])->group(function () {
+    Route::resource('store', StoreController::class); // This creates admin.store.index
+});
+
+Route::prefix('admin')->name('admin.')->middleware(['web', 'auth', 'is_admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+});
+
+Route::prefix('admin')->name('admin.')->middleware(['web', 'auth:admin'])->group(function () {
+    Route::get('/comments', [\App\Http\Controllers\AdminAuth\AdminCommentController::class, 'index'])->name('comments.index');
+    Route::delete('/comments/{id}', [\App\Http\Controllers\AdminAuth\AdminCommentController::class, 'destroy'])->name('comments.destroy');
+    Route::get('/posts/manage', [App\Http\Controllers\AdminAuth\AdminPostController::class, 'index'])->name('posts.manage');
+    Route::delete('/posts/{id}', [App\Http\Controllers\AdminAuth\AdminPostController::class, 'destroy'])->name('posts.destroy');
+
+});
+
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::get('/sports', [App\Http\Controllers\SportTeamController::class, 'index'])->name('sports.index');
+
