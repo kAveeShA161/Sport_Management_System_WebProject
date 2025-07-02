@@ -70,7 +70,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.store.index') }}">Store</a>
+                            <a class="nav-link" href="{{ route('admin.store_items.index') }}">Store</a>
                         </li>
 
                         <li class="nav-item">

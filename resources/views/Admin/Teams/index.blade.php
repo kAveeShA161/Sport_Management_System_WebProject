@@ -26,25 +26,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($teams as $team)
-                        <tr>
-                            <td>{{ $team->sport_name }}</td>
-                            <td>{{ $team->coach->coach_name ?? 'N/A' }}</td>
-                            <td>{{ $team->student->student_name ?? 'N/A' }}</td>
-                            <td>{{ $team->student_role }}</td>
-                            <td>
-                                <a href="{{ route('admin.teams.edit', $team->id) }}" class="btn btn-info">Edit</a>
+                        @foreach($teams as $sport_name => $teamGroup)
+                            @foreach($teamGroup as $team)
+                                <tr>
+                                    <td>{{ $sport_name }}</td>
+                                    <td>{{ $team->coach->coach_name ?? 'N/A' }}</td>
+                                    <td>{{ $team->student->student_name ?? 'N/A' }}</td>
+                                    <td>{{ $team->student_role }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.teams.edit', $team->id) }}" class="btn btn-info">Edit</a>
 
-                                <form action="{{ route('admin.teams.destroy', $team->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                        <form action="{{ route('admin.teams.destroy', $team->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endforeach
+
                     </tbody>
                 </table>
 

@@ -14,8 +14,10 @@ use App\Http\Controllers\SportTeamController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AdminAuth\StoreController;
+use App\Http\Controllers\AdminAuth\StoreItemController;
 use App\Http\Controllers\AdminAuth\UserController;
 use App\Http\Controllers\AdminAuth\AdminPostController;
+use App\Http\Controllers\UserSportTeamController;
 
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
@@ -87,9 +89,7 @@ Route::put('/admin/teams/{team}', [SportTeamController::class, 'update'])->name(
 
 Route::get('/admin/posts', [PostController::class, 'index'])->name('admin.posts.index');
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'is_admin'])->group(function () {
-    Route::resource('store', StoreController::class); // This creates admin.store.index
-});
+
 
 Route::prefix('admin')->name('admin.')->middleware(['web', 'auth', 'is_admin'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -106,3 +106,19 @@ Route::prefix('admin')->name('admin.')->middleware(['web', 'auth:admin'])->group
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::get('/sports', [App\Http\Controllers\SportTeamController::class, 'index'])->name('sports.index');
 
+Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(function () {
+    Route::resource('store_items', \App\Http\Controllers\AdminAuth\StoreItemController::class);
+});
+
+// Show all store items to users
+Route::get('/store', [App\Http\Controllers\StoreItemUserController::class, 'index'])->name('store.index');
+
+
+Route::get('/sports', [UserSportTeamController::class, 'index'])->name('sports.index');
+
+use App\Http\Controllers\AdminAuth\UserManagementController;
+
+Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
+    Route::delete('/users/{id}', [UserManagementController::class, 'destroy'])->name('users.destroy');
+});

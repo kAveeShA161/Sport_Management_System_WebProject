@@ -1,121 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('admin.layoutAd.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+@section('content')
+<div class="container">
+    <h2>User Accounts</h2>
 
-    <style>
-        body {
-            background-color: #4f4a55;
-        }
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-        .navbar {
-            margin-bottom: 20px;
-            position: fixed;
-        }
-
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
-        }
-    </style>
-</head>
-
-<body>
-
-    <nav class="navbar navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-
-            <a class="navbar-brand" href="#"><img src="images/Logo.png">Physical Education Center - SUSL</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
-                aria-labelledby="offcanvasDarkNavbarLabel">
-
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Admin</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="Dashboar.html">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="teams.html">Teams</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="posts.html">Posts</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="store.html">Store</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="users.html">Users</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="users.html">Log Out</a>
-                        </li>
-
-                    </ul>
-
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
-    <div class="container mt-5 pt-5">
-        <h3 class="text-white mb-4">Users</h3>
-
-        <table class="table table-dark table-hover">
-            <thead>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Faculty</th>
+                <th>Department</th>
+                <th>Batch</th>
+                <th>Phone</th>
+                <th>Gender</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($users as $user)
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Tele_no</th>
-                    <th scope="col">Faculty</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Batch</th>
-                    <th scope="col">Action</th>
+                    <td>
+                        @if($user->profile_image)
+                            <img src="{{ asset('storage/' . $user->profile_image) }}" width="50">
+                        @else
+                            No Image
+                        @endif
+                    </td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->faculty }}</td>
+                    <td>{{ $user->department }}</td>
+                    <td>{{ $user->batch }}</td>
+                    <td>{{ $user->phone }}</td>
+                    <td>{{ $user->gender }}</td>
+                    <td>
+                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+            @empty
+                <tr><td colspan="9" class="text-center">No users found.</td></tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+@endsection
