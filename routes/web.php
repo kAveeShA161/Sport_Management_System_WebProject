@@ -18,7 +18,7 @@ use App\Http\Controllers\AdminAuth\StoreItemController;
 use App\Http\Controllers\AdminAuth\UserController;
 use App\Http\Controllers\AdminAuth\AdminPostController;
 use App\Http\Controllers\UserSportTeamController;
-
+use App\Http\Controllers\LandingController;
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
@@ -122,3 +122,4 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
     Route::delete('/users/{id}', [UserManagementController::class, 'destroy'])->name('users.destroy');
 });
+Route::get('/', [LandingController::class, 'index']);

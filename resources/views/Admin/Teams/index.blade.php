@@ -2,20 +2,19 @@
 
 @section('content')
 
-<div class="container">
-    <h2>Sport Teams</h2>
-
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Sport Teams</h3>
-        </div>
-        <div class="card-body">
-            <a href="{{ route('admin.teams.create') }}" class="btn btn-primary mb-3">
-                Add New Team <i class="fa fa-plus" aria-hidden="true"></i>
-            </a>
+    <div class="container-table">
+        <div class="table-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-primary" style="color: #002b5b;">Sports Team Table</h4>
+                <a href="{{ route('admin.teams.create') }}" class="btn btn-primary btn-add-member">
+                    <i class="fas fa-user-plus me-1"></i> Add New Team 
+                </a>
+            </div>
+        
+            
 
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table align-middle">
                     <thead>
                         <tr>
                             <th>Sport Name</th>
@@ -34,13 +33,13 @@
                                     <td>{{ $team->student->student_name ?? 'N/A' }}</td>
                                     <td>{{ $team->student_role }}</td>
                                     <td>
-                                        <a href="{{ route('admin.teams.edit', $team->id) }}" class="btn btn-info">Edit</a>
+                                        <a href="{{ route('admin.teams.edit', $team->id) }}" class="action-icons"><i class="fas fa-edit text-primary" title="Edit"></i></a>
 
                                         <form action="{{ route('admin.teams.destroy', $team->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">
-                                                Delete
+                                            <button type="submit" style="border: none; background: none;" onclick="return confirm('Are you sure?')" class="action-icons">
+                                                <i class="fas fa-trash" title="Delete"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -57,7 +56,8 @@
 
             </div>
         </div>
+      </div>
     </div>
-</div>
+
 
 @endsection

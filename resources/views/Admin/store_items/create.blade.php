@@ -1,8 +1,12 @@
 @extends('admin.layoutAd.app')
 
 @section('content')
-    <h2>Add New Store Item</h2>
 
+<div class="container-form">
+    <div class="form-card">
+      <div class="form-title">
+        <i class="fa-solid fa-pen-to-square"></i> Add New Store Item
+      </div>  
     @if($errors->any())
         <div style="color: red;">
             <ul>
@@ -16,18 +20,29 @@
     <form method="POST" enctype="multipart/form-data" action="{{ route('admin.store_items.store') }}">
         @csrf
 
-        <label>Name:</label><br>
-        <input name="name" value="{{ old('name') }}" required><br><br>
+        <div class="mb-3">
+            <label>Name:</label>
+            <input class="form-control" name="name" value="{{ old('name') }}" required>
+        </div>
 
-        <label>Price:</label><br>
-        <input name="price" type="number" step="0.01" value="{{ old('price') }}" required><br><br>
+        <div class="mb-3">
+            <label>Price:</label>
+            <input class="form-control" name="price" type="number" step="0.01" value="{{ old('price') }}" required>
+        </div>
 
-        <label>Quantity:</label><br>
-        <input name="quantity" type="number" value="{{ old('quantity') }}" required><br><br>
+        <div class="mb-3">
+            <label>Quantity:</label>
+            <input class="form-control" name="quantity" type="number" value="{{ old('quantity') }}" required>
+        </div>
 
-        <label>Image (optional):</label><br>
-        <input name="image" type="file"><br><br>
+        <div class="mb-3">
+            <label>Image:</label>
+            <input class="form-control" name="image" type="file">
+        </div>
 
-        <button type="submit">Add Item</button>
+        <button class="btn btn-submit" type="submit">Add Item</button>
     </form>
+      
+    </div>
+</div>    
 @endsection

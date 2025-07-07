@@ -3,27 +3,25 @@
 
 @section('content')
 
-<div class="container mt-4">
-    <h2 class="mb-4">All Comments</h2>
-
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     @foreach ($comments as $comment)
-        <div class="card mb-3">
-            <div class="card-header d-flex justify-content-between">
-                <strong>Post by: {{ $comment->post->user->name ?? 'N/A' }}</strong>
+        <div class="comment-card">
+            <div class="post-by">
+                <strong class="post-by-left"><i class="fa-solid fa-user"></i> Post by: <span class="content-text">{{ $comment->post->user->name ?? 'N/A' }}</span></strong>
                 <form action="{{ route('admin.comments.destroy', $comment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this comment?')">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger btn-sm">Delete</button>
+                    <button type="submit" class="trash" style="border: none; background: none;"><i class="fa-solid fa-trash delete-icon" title="Delete comment"></i></button>
                 </form>
             </div>
+            <hr class="post-separator" />
             <div class="card-body">
-                <p><strong>Post Description:</strong> {{ $comment->post->description }}</p>
-                <p><strong>Commented by:</strong> {{ $comment->user->name ?? 'N/A' }}</p>
-                <p><strong>Comment:</strong> {{ $comment->body }}</p>
+                <p class="post-desc"><i class="fa-solid fa-file-lines"></i> Post Description:</strong><span class="content-text"> {{ $comment->post->description }}</span></p>
+                <p class="comment-by"><i class="fa-solid fa-reply"></i> Commented by:</strong><span class="content-text"> {{ $comment->user->name ?? 'N/A' }}</span></p>
+                <p class="comment-text"><i class="fa-solid fa-comment"></i> Comment:</strong><span class="content-text"> {{ $comment->body }}</span></p>
             </div>
         </div>
     @endforeach
@@ -31,5 +29,5 @@
     <div class="d-flex justify-content-center">
         {{ $comments->links() }}
     </div>
-</div>
+
 @endsection

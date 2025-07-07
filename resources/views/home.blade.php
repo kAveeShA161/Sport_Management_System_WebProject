@@ -3,6 +3,8 @@
 @section('content')
 <head>
      <style>
+
+    
     .nav-item-home{
         background-color: #1A406B;
         padding-left: 6px;
@@ -54,13 +56,7 @@
         color: white;
         z-index: 2;
     }
-    .stats-card {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      border-radius: 12px;
-      text-align: center;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
+    
 
     .footer {
       background-color: #1A406B;
@@ -77,17 +73,91 @@
       text-decoration: underline;
     }
 
-    .read-more-btn {
-      background-color: #f8f9fa;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
+    body.homepage {
+      background: white;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: lightblue;
     }
 
+    .welcome {
+      color: #003366;
+      font-weight: bolder;
+      margin-top: 32px;
+      margin-bottom: 16px;
+      font-size: 5rem;
+      letter-spacing: 0.02em;
+    }
+    .main-title {
+      font-weight: 700;
+      color: #184d8a;
+      font-size: 1.6rem;
+      margin-bottom: 36px;
+    }
+    .stat-card {
+      background: lightblue;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+      width: 130px;
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px auto;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #184d8a;
+    }
+    .stat-label {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 1rem;
+      color: #0a2342;
+      font-weight: 500;
+    }
+    .news-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #184d8a;
+      margin: 40px 0 28px 0;
+      text-align: center;
+    }
     .news-card {
-      background-color: #6c757d;
-      height: 200px;
-      border-radius: 10px;
+      background: #466385;
+      border-radius: 12px;
+      height: 170px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .read-more-btn {
+      background: #fff;
+      color: #0a2342;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      font-weight: 500;
+      margin: 0 auto 24px auto;
+      display: block;
+      width: 120px;
+      padding: 6px 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .read-more-btn:hover {
+      background: #184d8a;
+      color: #fff;
+    }
+    @media (max-width: 767px) {
+      .stat-card {
+        width: 100px;
+        height: 90px;
+        font-size: 1.1rem;
+      }
+      .news-card {
+        height: 120px;
+      }
     }
 
     .logo {
@@ -109,13 +179,6 @@
             <img src="{{ asset('images/cover1.jpg') }}" class="d-block w-100" alt="...">
             <div class="overlay"></div>
         </div>
-
-      <div class="carousel-caption d-none d-md-block">
-        <div class="text-center py-5">
-            <h6>WELCOME TO</h6>
-            <h2 class="fw-bold text-primary">Sabra Sport Education Unit</h2>
-        </div>
-      </div>
     </div>
     <div class="carousel-item">
         <div class="image-container">
@@ -123,10 +186,6 @@
             <div class="overlay"></div>
         </div>
         <div class="carousel-caption d-none d-md-block">
-        <div class="text-center py-5">
-            <h6>WELCOME TO</h6>
-            <h2 class="fw-bold text-primary">Sabra Sport Education Unit</h2>
-        </div>
       </div>
     </div>
     <div class="carousel-item">
@@ -135,10 +194,6 @@
             <div class="overlay"></div>
         </div>
       <div class="carousel-caption d-none d-md-block">
-        <div class="text-center py-5">
-            <h6>WELCOME TO</h6>
-            <h2 class="fw-bold text-primary">Sabra Sport Education Unit</h2>
-        </div>
       </div>
     </div>
   </div>
@@ -152,45 +207,40 @@
   </button>
 </div>
 
+    <div class="container text-center">
+      <div class="welcome">WELCOME TO</div>
+      <div class="main-title">Sabra Sport Education Unit</div>
 
+      <!-- Stat Cards with count-up -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+          <div class="stat-card" data-target="{{ $userCount }}">0</div>
+          <div class="stat-label">Students</div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+          <div class="stat-card" data-target="{{ $uniqueSportsCount }}">0</div>
+          <div class="stat-label">Sports</div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+          <div class="stat-card" data-target="{{ $coachCount }}">0</div>
+          <div class="stat-label">Staff</div>
+        </div>
+      </div>
 
-
-<!-- Stats Section -->
-<div class="container mb-5">
-  <div class="row text-center">
-    <div class="col-md-4">
-      <div class="stats-card">
-        <h3>1500</h3>
-        <p>Students</p>
+      <!-- Latest News -->
+      <div class="news-title">Latest News</div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-5 mb-3">
+          <div class="news-card"></div>
+          <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="col-12 col-md-6 col-lg-5 mb-3">
+          <div class="news-card"></div>
+          <button class="read-more-btn">Read More</button>
+        </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="stats-card">
-        <h3>20</h3>
-        <p>Sports</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="stats-card">
-        <h3>18</h3>
-        <p>Staff</p>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Latest News -->
-<section class="container mb-5">
-  <h3 class="text-center mb-4">Latest News</h3>
-  <div class="row justify-content-center">
-    <div class="col-md-4 mb-4">
-      <div class="news-card mb-2"></div>
-      <button class="read-more-btn w-100">Read More</button>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="news-card mb-2"></div>
-      <button class="read-more-btn w-100">Read More</button>
-    </div>
-  </div>
-</section>
+
+
 @endsection

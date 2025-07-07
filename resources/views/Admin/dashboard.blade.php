@@ -1,18 +1,17 @@
 @extends('admin.layoutAd.app')
 @section('content')
-<div class="container mt-5 pt-5">
+
     <h3 class="text-white mb-4">Dashboard</h3>
    
   <div class="row">
-    <div class="col-md-6 mb-4">
-        <a href="{{ route('admin.coaches.index') }}" class="btn btn-primary w-100">
-            ➕ Add Coach Details
-        </a>
+
+    <div class="content">
+        <div class="action-buttons">
+        <button class="btn btn-primary" ><a href="{{ route('admin.coaches.index') }}" ><i class="fas fa-user-plus"></i> Add Coach</a></button>
+        <button class="btn btn-secondary"><a href="{{ route('admin.members.index') }}" ><i class="fas fa-people-group"></i> Add Team Members</a></button>
+        </div>
     </div>
-    <div class="col-md-6 mb-4">
-        <a href="{{ route('admin.members.index') }}" class="btn btn-success w-100">
-            ➕ Add Student (Member) Details
-        </a>
-    </div>
+
+
 </div>
   
