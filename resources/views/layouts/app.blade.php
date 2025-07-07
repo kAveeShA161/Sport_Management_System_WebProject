@@ -19,6 +19,69 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
     <style>
+        
+        //login and register form styles
+        /*Register form*/
+body.registerform {
+  background-color: #e2e5ff;
+}
+.register-container {
+  background-color: #0a2540;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 400px;
+  margin: 60px auto;
+  color: white;
+}
+.register-container .form-control {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+}
+.gender-label {
+  margin-bottom: 10px;
+}
+
+.form-check-label {
+  margin: 0 20px 0 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.form-check-input {
+  width: 18px;
+  height: 18px;
+  margin-top: 0;
+  cursor: pointer;
+}
+.register-container .btn-primary {
+  background-color: #ffffff;
+  color: #0a2540;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.btn-login {
+  background-color: #ffffff;
+  color: #0a2540;
+  border-radius: 10px;
+  width: 50%;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+.btn-login:hover {
+  background-color: #aab3ff;
+  color: #0a2540;   
+        
+        // General Styles
         .sign-up {
             background-color: #1A406B;
             padding: 10px 20px;

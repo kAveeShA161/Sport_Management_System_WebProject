@@ -230,14 +230,18 @@
       <!-- Latest News -->
       <div class="news-title">Latest News</div>
       <div class="row justify-content-center">
+        @foreach ($latestNews as $news)
         <div class="col-12 col-md-6 col-lg-5 mb-3">
-          <div class="news-card"></div>
+          <div class="news-card">
+            @if($news->image_path)
+                <img src="{{ asset('storage/' . $news->image_path) }}" width="150">
+            @endif
+          </div>
+          <h5>{{ $news->title }}</h5>
+          <p>{{ $news->description }}</p>
           <button class="read-more-btn">Read More</button>
         </div>
-        <div class="col-12 col-md-6 col-lg-5 mb-3">
-          <div class="news-card"></div>
-          <button class="read-more-btn">Read More</button>
-        </div>
+        @endforeach
       </div>
     </div>
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Coach;
 use App\Models\SportTeam;
+use App\Models\News;
 
 class LandingController extends Controller
 {
@@ -15,6 +16,10 @@ class LandingController extends Controller
         $coachCount = Coach::count();
         $uniqueSportsCount = SportTeam::distinct('sport_name')->count('sport_name');
 
-        return view('landing', compact('userCount', 'coachCount', 'uniqueSportsCount'));
+        $latestNews = News::latest()->take(2)->get();
+
+        return view('landing', compact('userCount', 'coachCount', 'uniqueSportsCount', 'latestNews'));
     }
+
+    
 }

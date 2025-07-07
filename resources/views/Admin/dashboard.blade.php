@@ -1,6 +1,7 @@
 @extends('admin.layoutAd.app')
 @section('content')
 
+<br><br>
     <h3 class="text-white mb-4">Dashboard</h3>
    
   <div class="row">
@@ -12,6 +13,9 @@
         </div>
     </div>
 
+    <div class="content">
+      <h3><i class="fas fa-newspaper"></i> Latest News</h3>
+    </div>
 
 </div>
   

@@ -380,6 +380,7 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <a href="{{ route('admin.dashboard') }}"><i class="fas fa-house"></i> Home</a>
+    <a href="{{ route('admin.news.index')}}"><i class="fas fa-newspaper"></i>Latest News</a>
     <a href="{{ route('admin.teams.index') }}"><i class="fas fa-users"></i> Teams</a>
     <a href="{{ route('admin.posts.manage') }}"><i class="fas fa-bullhorn"></i> Posts</a>
     <a href="{{ route('admin.comments.index') }}"><i class="fas fa-comments"></i> Comments</a>

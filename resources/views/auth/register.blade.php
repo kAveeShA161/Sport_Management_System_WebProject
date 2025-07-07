@@ -1,83 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('stylesheet.css') }}" />
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+    <body class="registerform">
+        <div class="register-container">
+            <h4 class="text-center mb-4">Register Form</h4>
 
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                        name="name" value="{{ old('name') }}" required autocomplete="name" autofocus />
+                    @error('name')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                        name="email" value="{{ old('email') }}" required autocomplete="email" />
+                    @error('email')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
+                        name="phone" value="{{ old('phone') }}" required />
+                    @error('phone')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                <div class="mb-3">
+                    <label for="faculty" class="form-label">Faculty</label>
+                    <select name="faculty" id="faculty" class="form-control @error('faculty') is-invalid @enderror" required>
+                        <option value="">Select Faculty</option>
+                        <option value="Agricultural Sciences">Agricultural Sciences</option>
+                        <option value="Applied Sciences">Applied Sciences</option>
+                        <option value="Geomatics">Geomatics</option>
+                        <option value="Management Studies">Management Studies</option>
+                        <option value="Social Sciences and Languages">Social Sciences and Languages</option>
+                        <option value="Computing">Computing</option>
+                        <option value="Medicine">Medicine</option>
+                        <option value="Graduate Studies">Graduate Studies</option>
+                        <option value="Technology">Technology</option>
+                    </select>
+                    @error('faculty')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                         <!-- Phone Number -->
-                        <div class="row mb-3">
-                            <label for="phone" class="col-md-4 col-form-label text-md-end">Phone Number</label>
-                            <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required>
-                                @error('phone')
-                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Faculty -->
-                        <div class="row mb-3">
-                            <label for="faculty" class="col-md-4 col-form-label text-md-end">Faculty</label>
-                            <div class="col-md-6">
-                                <select name="faculty" id="faculty" class="form-control @error('faculty') is-invalid @enderror" required>
-                                    <option value="">Select Faculty</option>
-                                    <option value="Agricultural Sciences">Agricultural Sciences</option>
-                                    <option value="Applied Sciences">Applied Sciences</option>
-                                    <option value="Geomatics">Geomatics</option>
-                                    <option value="Management Studies">Management Studies</option>
-                                    <option value="Social Sciences and Languages">Social Sciences and Languages</option>
-                                    <option value="Computing">Computing</option>
-                                    <option value="Medicine">Medicine</option>
-                                    <option value="Graduate Studies">Graduate Studies</option>
-                                    <option value="Technology">Technology</option>
-                                </select>
-                                @error('faculty')
-                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Department -->
-                        <div class="row mb-3">
-                            <label for="department" class="col-md-4 col-form-label text-md-end">Department</label>
-                            <div class="col-md-6">
-                                <select name="department" id="department" class="form-control @error('department') is-invalid @enderror" required>
+                <div class="mb-3">
+                    <label for="department" class="form-label">Department</label>
+                    <select name="department" id="department" class="form-control @error('department') is-invalid @enderror" required>
                                     <option value="">Select Department</option>
                                     <option value="Department of Agribusiness Management">Department of Agribusiness Management</option>
                                     <option value="Department of Export Agriculture">Department of Export Agriculture</option><option value="Electrical Engineering">Electrical Engineering</option>
@@ -121,82 +103,60 @@
                                     <option value="Department of Biosystems Technology">Department of Biosystems Technology</option>
                                     <option value="Graduate Studies">Graduate Studies</option>
                                 </select>
-                                @error('department')
-                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Batch -->
-                        <div class="row mb-3">
-                            <label for="batch" class="col-md-4 col-form-label text-md-end">Batch</label>
-                            <div class="col-md-6">
-                                <select name="batch" id="batch" class="form-control @error('batch') is-invalid @enderror" required>
-                                    <option value="">Select Batch</option>
-                                    <option value="2019/2020">2019/2020</option>
-                                    <option value="2020/2021">2020/2021</option>
-                                    <option value="2021/2022">2021/2022</option>
-                                    <option value="2022/2023">2022/2023</option>
-                                </select>
-                                @error('batch')
-                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Gender -->
-                        <div class="row mb-3">
-                            <label class="col-md-4 col-form-label text-md-end">Gender</label>
-                            <div class="col-md-6 pt-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required>
-                                    <label class="form-check-label" for="male">Male</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
-                                    <label class="form-check-label" for="female">Female</label>
-                                </div>
-                                @error('gender')
-                                    <div class="text-danger"><strong>{{ $message }}</strong></div>
-                                @enderror
-                            </div>
-                        </div>
-
-
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    @error('department')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label for="batch" class="form-label">Batch</label>
+                    <select name="batch" id="batch" class="form-control @error('batch') is-invalid @enderror" required>
+                        <option value="">Select Batch</option>
+                        <option value="2019/2020">2019/2020</option>
+                        <option value="2020/2021">2020/2021</option>
+                        <option value="2021/2022">2021/2022</option>
+                        <option value="2022/2023">2022/2023</option>
+                    </select>
+                    @error('batch')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label gender-label">Gender</label>
+                    <div class="d-flex align-items-center mt-2">
+                        <div class="form-check me-4">
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required />
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female" />
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                    </div>
+                    @error('gender')
+                        <span class="text-danger small d-block mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password"
+                        class="form-control @error('password') is-invalid @enderror" name="password" required
+                        autocomplete="new-password" />
+                    @error('password')
+                        <span class="text-danger small">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="password-confirm" class="form-label">Confirm Password</label>
+                    <input id="password-confirm" type="password" class="form-control"
+                        name="password_confirmation" required autocomplete="new-password" />
+                </div>
+
+                <button type="submit" class="btn-login">Register</button>
+            </form>
         </div>
-    </div>
-</div>
+    </body>
 @endsection

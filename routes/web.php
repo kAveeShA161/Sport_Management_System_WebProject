@@ -19,6 +19,7 @@ use App\Http\Controllers\AdminAuth\UserController;
 use App\Http\Controllers\AdminAuth\AdminPostController;
 use App\Http\Controllers\UserSportTeamController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\AdminAuth\NewsController;
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
@@ -123,3 +124,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::delete('/users/{id}', [UserManagementController::class, 'destroy'])->name('users.destroy');
 });
 Route::get('/', [LandingController::class, 'index']);
+
+Route::prefix('admin')->name('admin.')->middleware(['auth:admin'])->group(function () {
+    Route::resource('news', NewsController::class);
+});

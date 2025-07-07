@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Coach;
 use App\Models\SportTeam;
 use Illuminate\Http\Request;
+use App\Models\News;
 
 class HomeController extends Controller
 {
@@ -29,6 +30,14 @@ class HomeController extends Controller
         $userCount = User::count();
         $uniqueSportsCount = SportTeam::distinct('sport_name')->count('sport_name');
 
-        return view('home', compact('coachCount', 'userCount', 'uniqueSportsCount'));
+        $latestNews = News::latest()->take(2)->get();
+
+        return view('home', compact('coachCount', 'userCount', 'uniqueSportsCount', 'latestNews'));
+    }
+
+    public function home()
+    {
+        $latestNews = News::latest()->take(2)->get();
+        return view('home', compact('latestNews'));
     }
 }
