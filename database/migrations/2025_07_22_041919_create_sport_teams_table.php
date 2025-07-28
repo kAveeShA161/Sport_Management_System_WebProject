@@ -13,7 +13,7 @@ return new class extends Migration
     {
        Schema::create('sport_teams', function (Blueprint $table) {
             $table->id('team_id');
-            $table->string('team_name');
+            $table->string('sport_name');
             $table->unsignedBigInteger('coach_id');
             $table->unsignedBigInteger('student_id');
             $table->timestamps();
@@ -23,6 +23,7 @@ return new class extends Migration
         });
 
     }
+
 
     /**
      * Reverse the migrations.
